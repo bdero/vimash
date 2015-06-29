@@ -1,0 +1,56 @@
+!!python/unicode 'etag': !!python/unicode '"Y3xTLFF3RLtHXX85JBgzzgp2Enw/gOU-G_Pw39VY42hfNrZV30g0OFk"'
+!!python/unicode 'items':
+- !!python/unicode 'etag': !!python/unicode '"Y3xTLFF3RLtHXX85JBgzzgp2Enw/SfbLWwfKQp49skBA3AcsRRsHxbI"'
+  !!python/unicode 'id': {!!python/unicode 'kind': !!python/unicode 'youtube#video',
+    !!python/unicode 'videoId': !!python/unicode 'CMWFPHN2RB8'}
+  !!python/unicode 'kind': !!python/unicode 'youtube#searchResult'
+  !!python/unicode 'snippet':
+    !!python/unicode 'channelId': !!python/unicode 'UCS7-srn4oSGubaIalO2vdPA'
+    !!python/unicode 'channelTitle': !!python/unicode 'ElementNiine'
+    !!python/unicode 'description': !!python/unicode 'Updated description: Since people
+      still believe that this over 1 year "mystery" isn''t solved, I''ll paste some
+      of BBC''s article about Webdriver Torso here. The proof ...'
+    !!python/unicode 'liveBroadcastContent': !!python/unicode 'none'
+    !!python/unicode 'publishedAt': !!python/unicode '2014-05-21T12:43:46.000Z'
+    !!python/unicode 'thumbnails':
+      !!python/unicode 'default': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/CMWFPHN2RB8/default.jpg'}
+      !!python/unicode 'high': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/CMWFPHN2RB8/hqdefault.jpg'}
+      !!python/unicode 'medium': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/CMWFPHN2RB8/mqdefault.jpg'}
+    !!python/unicode 'title': !!python/unicode 'Webdriver Torso Mystery - Solved'
+- !!python/unicode 'etag': !!python/unicode '"Y3xTLFF3RLtHXX85JBgzzgp2Enw/qi9V-C7b41Ht03ZeibVPP5dw6_g"'
+  !!python/unicode 'id': {!!python/unicode 'kind': !!python/unicode 'youtube#video',
+    !!python/unicode 'videoId': !!python/unicode 'St7D79dqx1c'}
+  !!python/unicode 'kind': !!python/unicode 'youtube#searchResult'
+  !!python/unicode 'snippet':
+    !!python/unicode 'channelId': !!python/unicode 'UCZdyyMmPhrOD6OSOSNCkziw'
+    !!python/unicode 'channelTitle': !!python/unicode 'TheOfficialJesusC'
+    !!python/unicode 'description': !!python/unicode 'Google is behind the infamous
+      webdriver torso account!! Uploads are part of a quality control scheme... Next:
+      The explaination behind cicada 3301! :D.'
+    !!python/unicode 'liveBroadcastContent': !!python/unicode 'none'
+    !!python/unicode 'publishedAt': !!python/unicode '2014-06-15T15:44:18.000Z'
+    !!python/unicode 'thumbnails':
+      !!python/unicode 'default': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/St7D79dqx1c/default.jpg'}
+      !!python/unicode 'high': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/St7D79dqx1c/hqdefault.jpg'}
+      !!python/unicode 'medium': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/St7D79dqx1c/mqdefault.jpg'}
+    !!python/unicode 'title': !!python/unicode 'WEBRIVER TORSO VIDEOS UPLOADED BY
+      GOOGLE!! - WebDriver Torso Mystery Explained'
+- !!python/unicode 'etag': !!python/unicode '"Y3xTLFF3RLtHXX85JBgzzgp2Enw/pIn781YB6pGSl8FAeAKwiAH6e-c"'
+  !!python/unicode 'id': {!!python/unicode 'kind': !!python/unicode 'youtube#video',
+    !!python/unicode 'videoId': !!python/unicode 'xAHpVWDTUQc'}
+  !!python/unicode 'kind': !!python/unicode 'youtube#searchResult'
+  !!python/unicode 'snippet':
+    !!python/unicode 'channelId': !!python/unicode 'UCfZ6GJOa3VUlQ4qN_VICVzg'
+    !!python/unicode 'channelTitle': !!python/unicode 'asda16432'
+    !!python/unicode 'description': !!python/unicode 'Solved the mystery of those
+      weird videos with blue and red rectangles and apparently random audio tones.'
+    !!python/unicode 'liveBroadcastContent': !!python/unicode 'none'
+    !!python/unicode 'publishedAt': !!python/unicode '2014-05-02T12:34:00.000Z'
+    !!python/unicode 'thumbnails':
+      !!python/unicode 'default': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/xAHpVWDTUQc/default.jpg'}
+      !!python/unicode 'high': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/xAHpVWDTUQc/hqdefault.jpg'}
+      !!python/unicode 'medium': {!!python/unicode 'url': !!python/unicode 'https://i.ytimg.com/vi/xAHpVWDTUQc/mqdefault.jpg'}
+    !!python/unicode 'title': !!python/unicode 'Webdriver Torso videos explained'
+!!python/unicode 'kind': !!python/unicode 'youtube#searchListResponse'
+!!python/unicode 'nextPageToken': !!python/unicode 'CAMQAA'
+!!python/unicode 'pageInfo': {!!python/unicode 'resultsPerPage': 3, !!python/unicode 'totalResults': 23620}
