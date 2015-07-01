@@ -14,6 +14,8 @@ Options:
   -c --config=<config>       Path to config file [default: ./config.yml].
   -a --cache=<cache>         Location to store search cache [default: ./cache].
 """
+from __future__ import unicode_literals
+
 import os
 import sys
 import yaml
@@ -23,6 +25,7 @@ from random import sample
 from docopt import docopt
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from youtube_dl import YoutubeDL
 
 
 def youtube_search(keywords, developer_key,
@@ -77,7 +80,16 @@ def youtube_search(keywords, developer_key,
 
 
 def youtube_download(videos, cache='./cache'):
-    pass
+    print 'Fetching', len(videos), 'videos.'
+    options = {
+        'outtmpl': '{cache}/videos/%(id)s.%(ext)s'.format(cache=cache),
+        'format': 'webm',
+        'download_archive': '{cache}/videos/download_archive'.format(
+            cache=cache
+        )
+    }
+    with YoutubeDL(options) as ydl:
+        downloads = ydl.download(videos)
 
 
 if __name__ == '__main__':
