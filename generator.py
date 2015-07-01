@@ -9,7 +9,7 @@ Options:
   -h --help                  Show this help message.
   --version                  Show the version.
   -n --num-clips=<clips>     Number of clips to string together [default: 100].
-  -v --num-videos=<videos>   Number of unique videos to use [default: 20].
+  -v --num-videos=<videos>   Sample size of unique videos to use [default: 20].
   -m --max-search=<results>  Max YouTube results per term [default: 50].
   -c --config=<config>       Path to config file [default: ./config.yml].
   -a --cache=<cache>         Location to store search cache [default: ./cache].
@@ -17,6 +17,8 @@ Options:
 import os
 import sys
 import yaml
+
+from random import sample
 
 from docopt import docopt
 from googleapiclient.discovery import build
@@ -71,6 +73,12 @@ def youtube_search(keywords, developer_key,
             print 'results from cache.'
         search_results[keyword] = keyword_results
 
+    return search_results
+
+
+def youtube_download(videos, cache='./cache'):
+    pass
+
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='Random video generator 0.0.1')
@@ -91,9 +99,23 @@ if __name__ == '__main__':
         print 'Unable to read configuration file; aborting.'
         sys.exit(1)
 
+    # Fetch YouTube search results
     query_results = youtube_search(
         config['keywords'],
         config['DEVELOPER_KEY'],
         max_results=config['max_search'],
         cache=config['cache']
     )
+    # Collect all of the video IDs
+    videos = []
+    for result in query_results.values():
+        videos += [
+            video['id']['videoId']
+            for video in result.get('items', [])
+        ]
+
+    # Select a random sample of the videos
+    sample_videos = sample(videos, min(int(config['num_videos']), len(videos)))
+
+    # Download selected videos from YouTube
+    youtube_download(sample_videos, cache=config['cache'])
