@@ -7,12 +7,19 @@ Usage:
 
 Options:
   -h --help                  Show this help message.
-  --version                  Show the version.
   -n --num-clips=<clips>     Number of clips to string together [default: 100].
   -v --num-videos=<videos>   Sample size of unique videos to use [default: 20].
   -m --max-search=<results>  Max YouTube results per term [default: 50].
   -c --config=<config>       Path to config file [default: ./config.yml].
   -a --cache=<cache>         Location to store search cache [default: ./cache].
+  -f --fps=<hz>              The output video framerate [default: 25].
+  --width=<pixels>           The output video width [default: 1920].
+  --height=<pixels>          The output video height [default: 1080].
+  --min-clip-len=<seconds>   The minimum segment length for each video slice
+                             [default: 0.04].
+  --clip-len-var=<seconds>   The length variation of each segment
+                             [default: 0.2].
+  --version                  Show the version.
 """
 from __future__ import unicode_literals
 
@@ -98,8 +105,8 @@ def generate_video(video_ids, options=None, cache='./cache'):
     # Define default options and override anything explicitly set
     opts = {
         'num_clips': 20,
-        'min_clip_length': 0.1,
-        'clip_length_variation': 0.5,
+        'min_clip_len': 0.1,
+        'clip_len_var': 0.5,
         'width': 1920,
         'height': 1080,
         'fps': 30,
@@ -119,7 +126,7 @@ def generate_video(video_ids, options=None, cache='./cache'):
     for iteration in xrange(opts['num_clips']):
         clip = sample(videos, 1)[0]
         length = (
-            random()*opts['min_clip_length'] + opts['clip_length_variation']
+            random()*opts['min_clip_len'] + opts['clip_len_var']
         )
         start_time = random()*(clip.duration - length)
 
@@ -154,6 +161,11 @@ if __name__ == '__main__':
         'keywords': args['<keyword>'],
         'video': {
             'num_clips': int(args['--num-clips']),
+            'min_clip_len': float(args['--num-clip-len']),
+            'clip_len_var': float(args['--clip-len-var']),
+            'width': int(args['--width']),
+            'height': int(args['--height']),
+            'fps': int(args['--fps']),
         },
         'num_videos': int(args['--num-videos']),
         'max_search': int(args['--max-search']),
