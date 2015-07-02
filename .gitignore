@@ -1,3 +1,4 @@
 cache/
 config.yml
 venv/
+generated_*.mp4

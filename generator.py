@@ -16,15 +16,17 @@ Options:
 """
 from __future__ import unicode_literals
 
+import md5
 import os
 import sys
 import yaml
 
-from random import sample
+from random import random, sample
 
 from docopt import docopt
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from moviepy import editor
 from youtube_dl import YoutubeDL
 
 
@@ -82,23 +84,79 @@ def youtube_search(keywords, developer_key,
 def youtube_download(videos, cache='./cache'):
     print 'Fetching', len(videos), 'videos.'
     options = {
-        'outtmpl': '{cache}/videos/%(id)s.%(ext)s'.format(cache=cache),
-        'format': 'webm',
-        'download_archive': '{cache}/videos/download_archive'.format(
-            cache=cache
-        )
+        'outtmpl': os.path.join(cache, 'videos', '%(id)s.%(ext)s'),
+        'format': 'mp4',
+        'download_archive': os.path.join(cache, 'videos', 'download_archive')
     }
     with YoutubeDL(options) as ydl:
-        downloads = ydl.download(videos)
+        result = ydl.download(videos)
+
+    return result
+
+
+def generate_video(video_ids, options=None, cache='./cache'):
+    # Define default options and override anything explicitly set
+    opts = {
+        'num_clips': 20,
+        'min_clip_length': 0.1,
+        'clip_length_variation': 0.5,
+        'width': 1920,
+        'height': 1080,
+        'fps': 30,
+    }
+    if options is not None:
+        opts.update(options)
+
+    # Load the videos
+    paths = [
+        os.path.join(cache, 'videos', '{}.mp4'.format(video_id))
+        for video_id in video_ids
+    ]
+    videos = [editor.VideoFileClip(path) for path in paths]
+
+    # Segment the videos into random clips
+    clips = []
+    for iteration in xrange(opts['num_clips']):
+        clip = sample(videos, 1)[0]
+        length = (
+            random()*opts['min_clip_length'] + opts['clip_length_variation']
+        )
+        start_time = random()*(clip.duration - length)
+
+        print 'Clip', iteration, ':',
+        print 'Slicing video', video_ids[videos.index(clip)],
+        print '(', start_time, 'to', start_time + length, ')'
+        clips += [
+            clip
+            .subclip(start_time, start_time + length)
+            .set_fps(opts['fps'])
+            .resize((opts['width'], opts['height']))
+        ]
+
+    # Combine the clips
+    result = editor.concatenate_videoclips(clips)
+
+    # Output result to a file
+    title = 'generated_{}.mp4'.format(md5.new(''.join(video_ids)).hexdigest())
+    print 'Saving result:', title
+    result.write_videofile(
+        title,
+        fps=opts['fps'],
+        codec='libx264',
+        bitrate='8000k',
+        audio_bitrate='384k'
+    )
 
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='Random video generator 0.0.1')
     config = {
         'keywords': args['<keyword>'],
-        'num_clips': args['--num-clips'],
-        'num_videos': args['--num-videos'],
-        'max_search': args['--max-search'],
+        'video': {
+            'num_clips': int(args['--num-clips']),
+        },
+        'num_videos': int(args['--num-videos']),
+        'max_search': int(args['--max-search']),
         'cache': args['--cache'],
     }
 
@@ -127,7 +185,14 @@ if __name__ == '__main__':
         ]
 
     # Select a random sample of the videos
-    sample_videos = sample(videos, min(int(config['num_videos']), len(videos)))
+    sample_videos = sample(videos, min(config['num_videos'], len(videos)))
 
     # Download selected videos from YouTube
     youtube_download(sample_videos, cache=config['cache'])
+
+    # Generate random video
+    generate_video(
+        sample_videos,
+        options=config['video'],
+        cache=config['cache']
+    )
