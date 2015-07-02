@@ -156,7 +156,7 @@ def generate_video(video_ids, options=None, cache='./cache'):
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='vimash 0.0.1')
+    args = docopt(__doc__, version='vimash 0.1.0')
     config = {
         'keywords': args['<keyword>'],
         'video': {
