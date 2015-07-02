@@ -1,9 +1,9 @@
-"""Random video generator.
+"""vimash.
 
 Usage:
-  generator.py <keyword>... [-n clips -v videos -m results -c config -a cache]
-  generator.py (-h | --help)
-  generator.py --version
+  vimash.py <keyword>... [-n clips -v videos -m results -c config -a cache]
+  vimash.py (-h | --help)
+  vimash.py --version
 
 Options:
   -h --help                  Show this help message.
@@ -149,7 +149,7 @@ def generate_video(video_ids, options=None, cache='./cache'):
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='Random video generator 0.0.1')
+    args = docopt(__doc__, version='vimash 0.0.1')
     config = {
         'keywords': args['<keyword>'],
         'video': {

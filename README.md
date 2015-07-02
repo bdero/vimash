@@ -1,7 +1,7 @@
 vimash
 ======
 
-Vimash is a **vi**deo **ma**sher; it slices random clips from videos taken from
+Vimash is a **vi**deo **mash**er; it slices random clips from videos taken from
 a set of YouTube search results and glues them together, producing high quality
 rediculousness.
 
@@ -21,7 +21,7 @@ cp config.example.yml config.yml
 cat config.yml
 
 # View the help message
-python2 generator.py --help
+python2 vimash.py --help
 ```
 
 License
