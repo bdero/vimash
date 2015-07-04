@@ -15,7 +15,7 @@ Options:
   -w --width=<pixels>        The output video width [default: 1920].
   -h --height=<pixels>       The output video height [default: 1080].
   --min-clip-len=<seconds>   Minimum length of video segments [default: 0.04].
-  --clip-len-var=<seconds>   Length variation of each segment [default: 0.2].
+  --clip-len-var=<seconds>   Length variation of each segment [default: 0.4].
   --codec=<codec>            The output video's codec [default: libx264].
   --bitrate=<bps>            The output video's bitrate [default: 8000k].
   --audio-bitrate=<bps>      The output audio's bitrate [default: 384k].
@@ -106,8 +106,8 @@ def generate_video(video_ids, options=None, cache='./cache'):
     # Define default options and override anything explicitly set
     opts = {
         'num_clips': 20,
-        'min_clip_len': 0.1,
-        'clip_len_var': 0.5,
+        'min_clip_len': 0.04,
+        'clip_len_var': 0.4,
         'width': 1920,
         'height': 1080,
         'fps': 30,
@@ -130,7 +130,7 @@ def generate_video(video_ids, options=None, cache='./cache'):
     for iteration in xrange(opts['num_clips']):
         clip = sample(videos, 1)[0]
         length = (
-            random()*opts['min_clip_len'] + opts['clip_len_var']
+            random()*opts['clip_len_var'] + opts['min_clip_len']
         )
         start_time = random()*(clip.duration - length)
 
