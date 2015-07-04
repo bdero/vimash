@@ -1,7 +1,7 @@
 """vimash.
 
 Usage:
-  vimash.py <keyword>... [-n clips -v videos -m results -c config -a cache]
+  vimash.py <keyword>... [-n clips -v videos -m results -c config -a cache --min-clip-len seconds --clip-len-var seconds --width pixels --height pixels --fps hz]
   vimash.py (-h | --help)
   vimash.py --version
 
@@ -15,10 +15,8 @@ Options:
   -f --fps=<hz>              The output video framerate [default: 25].
   --width=<pixels>           The output video width [default: 1920].
   --height=<pixels>          The output video height [default: 1080].
-  --min-clip-len=<seconds>   The minimum segment length for each video slice
-                             [default: 0.04].
-  --clip-len-var=<seconds>   The length variation of each segment
-                             [default: 0.2].
+  --min-clip-len=<seconds>   Minimum length of video segments [default: 0.04].
+  --clip-len-var=<seconds>   Length variation of each segment [default: 0.2].
   --version                  Show the version.
 """
 from __future__ import unicode_literals
@@ -156,24 +154,31 @@ def generate_video(video_ids, options=None, cache='./cache'):
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='vimash 0.1.0')
+    arguments = docopt(__doc__, version='vimash 0.1.0')
+
+    def optional_args(*args):
+        return {
+            arg[0]: arg[1](arguments['--{}'.format(arg[0].replace('_', '-'))])
+            for arg in args
+        }
+    print arguments
     config = {
-        'keywords': args['<keyword>'],
-        'video': {
-            'num_clips': int(args['--num-clips']),
-            'min_clip_len': float(args['--num-clip-len']),
-            'clip_len_var': float(args['--clip-len-var']),
-            'width': int(args['--width']),
-            'height': int(args['--height']),
-            'fps': int(args['--fps']),
-        },
-        'num_videos': int(args['--num-videos']),
-        'max_search': int(args['--max-search']),
-        'cache': args['--cache'],
+        'keywords': arguments['<keyword>'],
+        'video': optional_args(
+            ('num_clips', int),
+            ('min_clip_len', float),
+            ('clip_len_var', float),
+            ('width', int),
+            ('height', int),
+            ('fps', int),
+        ),
+        'num_videos': int(arguments['--num-videos']),
+        'max_search': int(arguments['--max-search']),
+        'cache': arguments['--cache'],
     }
 
     # Override config dict with config file
-    config_file = args['--config']
+    config_file = arguments['--config']
     try:
         with open(config_file) as f:
             config.update(yaml.load(f))
