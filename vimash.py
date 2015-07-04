@@ -1,22 +1,25 @@
 """vimash.
 
 Usage:
-  vimash.py <keyword>... [-n clips -v videos -m results -c config -a cache --min-clip-len seconds --clip-len-var seconds --width pixels --height pixels --fps hz]
-  vimash.py (-h | --help)
+  vimash.py <keyword>... [options]
+  vimash.py --help
   vimash.py --version
 
 Options:
-  -h --help                  Show this help message.
   -n --num-clips=<clips>     Number of clips to string together [default: 100].
   -v --num-videos=<videos>   Sample size of unique videos to use [default: 20].
   -m --max-search=<results>  Max YouTube results per term [default: 50].
   -c --config=<config>       Path to config file [default: ./config.yml].
   -a --cache=<cache>         Location to store search cache [default: ./cache].
-  -f --fps=<hz>              The output video framerate [default: 25].
-  --width=<pixels>           The output video width [default: 1920].
-  --height=<pixels>          The output video height [default: 1080].
+  -f --fps=<fps>             The output video framerate [default: 25].
+  -w --width=<pixels>        The output video width [default: 1920].
+  -h --height=<pixels>       The output video height [default: 1080].
   --min-clip-len=<seconds>   Minimum length of video segments [default: 0.04].
   --clip-len-var=<seconds>   Length variation of each segment [default: 0.2].
+  --codec=<codec>            The output video's codec [default: libx264].
+  --bitrate=<bps>            The output video's bitrate [default: 8000k].
+  --audio-bitrate=<bps>      The output audio's bitrate [default: 384k].
+  --help                     Show this help message.
   --version                  Show the version.
 """
 from __future__ import unicode_literals
@@ -108,6 +111,9 @@ def generate_video(video_ids, options=None, cache='./cache'):
         'width': 1920,
         'height': 1080,
         'fps': 30,
+        'codec': 'libx264',
+        'bitrate': '8000k',
+        'audio_bitrate': '384k',
     }
     if options is not None:
         opts.update(options)
@@ -147,9 +153,9 @@ def generate_video(video_ids, options=None, cache='./cache'):
     result.write_videofile(
         title,
         fps=opts['fps'],
-        codec='libx264',
-        bitrate='8000k',
-        audio_bitrate='384k'
+        codec=opts['codec'],
+        bitrate=opts['bitrate'],
+        audio_bitrate=opts['audio_bitrate']
     )
 
 
@@ -161,7 +167,6 @@ if __name__ == '__main__':
             arg[0]: arg[1](arguments['--{}'.format(arg[0].replace('_', '-'))])
             for arg in args
         }
-    print arguments
     config = {
         'keywords': arguments['<keyword>'],
         'video': optional_args(
@@ -171,6 +176,9 @@ if __name__ == '__main__':
             ('width', int),
             ('height', int),
             ('fps', int),
+            ('codec', str),
+            ('bitrate', str),
+            ('audio_bitrate', str),
         ),
         'num_videos': int(arguments['--num-videos']),
         'max_search': int(arguments['--max-search']),
