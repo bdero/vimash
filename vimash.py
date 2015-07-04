@@ -14,6 +14,7 @@ Options:
   -f --fps=<fps>             The output video framerate [default: 25].
   -w --width=<pixels>        The output video width [default: 1920].
   -h --height=<pixels>       The output video height [default: 1080].
+  -o --output=<file>         The path to the output file [default: ].
   --min-clip-len=<seconds>   Minimum length of video segments [default: 0.04].
   --clip-len-var=<seconds>   Length variation of each segment [default: 0.4].
   --codec=<codec>            The output video's codec [default: libx264].
@@ -114,6 +115,7 @@ def generate_video(video_ids, options=None, cache='./cache'):
         'codec': 'libx264',
         'bitrate': '8000k',
         'audio_bitrate': '384k',
+        'output': '',
     }
     if options is not None:
         opts.update(options)
@@ -148,7 +150,10 @@ def generate_video(video_ids, options=None, cache='./cache'):
     result = editor.concatenate_videoclips(clips)
 
     # Output result to a file
-    title = 'generated_{}.mp4'.format(md5.new(''.join(video_ids)).hexdigest())
+    title = (
+        'generated_{}.mp4'.format(md5.new(''.join(video_ids)).hexdigest())
+        if not len(opts['output']) else opts['output']
+    )
     print 'Saving result:', title
     result.write_videofile(
         title,
@@ -179,6 +184,7 @@ if __name__ == '__main__':
             ('codec', str),
             ('bitrate', str),
             ('audio_bitrate', str),
+            ('output', str),
         ),
         'num_videos': int(arguments['--num-videos']),
         'max_search': int(arguments['--max-search']),
