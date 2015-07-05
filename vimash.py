@@ -151,9 +151,17 @@ def generate_video(video_ids, options=None, cache='./cache'):
 
     # Output result to a file
     title = (
-        'generated_{}.mp4'.format(md5.new(''.join(video_ids)).hexdigest())
+        'output/generated_{}.mp4'.format(
+            md5.new(''.join(video_ids)).hexdigest()
+        )
         if not len(opts['output']) else opts['output']
     )
+
+    # Create the output dir if it doesn't exist
+    output_dir = os.path.dirname(title)
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
     print 'Saving result:', title
     result.write_videofile(
         title,
