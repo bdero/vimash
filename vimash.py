@@ -38,6 +38,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from moviepy import editor
 from youtube_dl import YoutubeDL
+from youtube_dl.utils import DownloadError
 
 
 def youtube_search(keywords, developer_key,
@@ -98,10 +99,19 @@ def youtube_download(videos, cache='./cache'):
         'format': 'mp4',
         'download_archive': os.path.join(cache, 'videos', 'download_archive')
     }
-    with YoutubeDL(options) as ydl:
-        result = ydl.download(videos)
 
-    return result
+    results = []
+    with YoutubeDL(options) as ydl:
+        # YoutubeDL actually takes an array of videos to download, but we're
+        # passing one video at a time to handle errors better
+        for video in videos:
+            try:
+                results.append(ydl.download([video]))
+            except DownloadError, e:
+                print 'An error occurred while downloading:', e
+                print 'Skipping...'
+
+    return results
 
 
 def generate_video(video_ids, options=None, cache='./cache'):
